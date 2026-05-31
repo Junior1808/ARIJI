@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARIJI — CS2 Team Stats</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0b0e;
+  --surface: #111318;
+  --surface2: #181b22;
+  --border: #1e2330;
+  --border2: #252c3d;
+  --accent: #00e5ff;
+  --accent2: #ff3d6e;
+  --text: #e8eaf0;
+  --muted: #5a6380;
+  --muted2: #8892aa;
+  --green: #00c97a;
+  --red: #ff3d6e;
+  --gold: #ffc840;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+body{min-height:100vh}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+
+/* LOGIN */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;width:600px;height:600px;
+  background:radial-gradient(circle,rgba(0,229,255,0.04) 0%,transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+}
+.login-box{
+  width:340px;padding:2.5rem;
+  background:var(--surface);border:1px solid var(--border2);border-radius:16px;
+  position:relative;z-index:1;
+}
+.login-logo{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;letter-spacing:4px;color:var(--accent);margin-bottom:4px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;letter-spacing:1px;text-transform:uppercase}
+.login-box label{font-size:12px;color:var(--muted2);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
+.login-box input{
+  width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;
+  padding:10px 14px;color:var(--text);font-size:15px;outline:none;transition:border 0.2s;
+}
+.login-box input:focus{border-color:var(--accent)}
+.login-box input::placeholder{color:var(--muted)}
+.login-btn{
+  width:100%;margin-top:1.25rem;padding:11px;border-radius:8px;border:none;cursor:pointer;
+  background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;
+  letter-spacing:1px;transition:opacity 0.2s;
+}
+.login-btn:hover{opacity:0.85}
+.login-err{font-size:13px;color:var(--red);margin-top:10px;min-height:18px}
+
+/* MAIN APP */
+#app{display:none;min-height:100vh;flex-direction:column}
+#app.visible{display:flex}
+
+/* HEADER */
+header{
+  padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;
+  background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+}
+.logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:3px;color:var(--accent)}
+.logo span{color:var(--muted);font-weight:400;font-size:13px;margin-left:10px;letter-spacing:1px}
+.header-right{display:flex;align-items:center;gap:12px}
+.admin-badge{
+  font-size:11px;background:rgba(0,229,255,0.1);color:var(--accent);
+  padding:3px 10px;border-radius:20px;border:1px solid rgba(0,229,255,0.2);letter-spacing:0.5px;
+}
+.logout-btn{
+  font-size:12px;color:var(--muted);cursor:pointer;padding:4px 10px;border-radius:6px;
+  border:1px solid var(--border2);background:transparent;transition:all 0.2s;
+}
+.logout-btn:hover{color:var(--text);border-color:var(--border2)}
+
+/* NAV */
+nav{
+  padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;gap:0;overflow-x:auto;
+}
+.nav-tab{
+  padding:14px 20px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
+  border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;letter-spacing:0.3px;
+}
+.nav-tab:hover{color:var(--muted2)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* CONTENT */
+main{flex:1;padding:24px;max-width:860px;width:100%;margin:0 auto}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-card-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px}
+.stat-card-val{font-size:26px;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:1px}
+
+/* TABLE */
+.section-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:600;letter-spacing:1px;color:var(--muted2);margin-bottom:14px;text-transform:uppercase}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.panel-table{width:100%;border-collapse:collapse}
+.panel-table th{
+  padding:10px 16px;font-size:11px;font-weight:500;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.7px;text-align:left;border-bottom:1px solid var(--border);
+  background:var(--surface2);
+}
+.panel-table th.num{text-align:right}
+.panel-table td{padding:12px 16px;font-size:14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.panel-table tr:last-child td{border-bottom:none}
+.panel-table tr:hover td{background:var(--surface2)}
+.panel-table td.num{text-align:right;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600}
+.rank-num{color:var(--muted);font-size:12px;min-width:20px;display:inline-block}
+.avatar{
+  width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:600;margin-right:8px;vertical-align:middle;flex-shrink:0;
+}
+.player-cell{display:flex;align-items:center}
+.kd-good{color:var(--green)}
+.kd-ok{color:var(--gold)}
+.kd-bad{color:var(--red)}
+.note-pill{
+  font-size:10px;background:rgba(255,200,64,0.1);color:var(--gold);
+  padding:2px 7px;border-radius:10px;border:1px solid rgba(255,200,64,0.2);
+  margin-left:6px;vertical-align:middle;
+}
+.crown{color:var(--gold);margin-right:4px;font-size:14px}
+
+/* MATCH CARDS */
+.match-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  margin-bottom:12px;overflow:hidden;
+}
+.match-header{
+  padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.match-num{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px}
+.match-date{font-size:12px;color:var(--muted)}
+.match-total{font-size:12px;color:var(--muted2)}
+
+/* ADMIN PANEL */
+.admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
+.admin-panel h3{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;letter-spacing:1px;color:var(--accent);margin-bottom:16px;text-transform:uppercase}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+.form-group input,.form-group select{
+  background:var(--bg);border:1px solid var(--border2);border-radius:8px;
+  padding:9px 12px;color:var(--text);font-size:14px;outline:none;transition:border 0.2s;
+}
+.form-group input:focus,.form-group select:focus{border-color:var(--accent)}
+.form-group select option{background:var(--surface)}
+.divider{grid-column:1/-1;border:none;border-top:1px solid var(--border);margin:4px 0}
+.player-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:4px}
+.player-row{
+  background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;
+}
+.player-row-name{font-size:13px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.player-row-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.player-row-fields input{padding:7px 10px;font-size:13px}
+.player-row-fields label{font-size:10px}
+.absent-toggle{
+  font-size:11px;color:var(--muted);cursor:pointer;padding:3px 8px;border-radius:6px;
+  border:1px solid var(--border2);background:transparent;transition:all 0.2s;margin-left:auto;
+}
+.absent-toggle.active{color:var(--red);border-color:rgba(255,61,110,0.3);background:rgba(255,61,110,0.07)}
+.submit-btn{
+  margin-top:16px;padding:11px 24px;border-radius:8px;border:none;cursor:pointer;
+  background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;
+  letter-spacing:1px;transition:opacity 0.2s;
+}
+.submit-btn:hover{opacity:0.85}
+.success-msg{font-size:13px;color:var(--green);margin-top:10px;min-height:18px}
+
+/* ROLE CARDS */
+.role-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden}
+.role-card-header{padding:18px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.role-icon{font-size:26px;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px}
+.role-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;letter-spacing:0.5px;margin-top:4px}
+.role-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.role-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
+.strength-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;line-height:1.4}
+.strength-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.pos-tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;margin:3px 3px 3px 0;border:1px solid var(--border2);background:var(--bg);color:var(--muted2)}
+@media(max-width:600px){.role-body{grid-template-columns:1fr}}
+
+/* MOBILE */
+@media(max-width:600px){
+  main{padding:16px}
+  .panel-table th:nth-child(n+4),.panel-table td:nth-child(n+4){display:none}
+  header{padding:0 16px}
+  nav{padding:0 8px}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">ARIJI</div>
+    <div class="login-sub">CS2 Team Stats</div>
+    <label>Пароль</label>
+    <input type="password" id="pw-input" placeholder="Введи пароль..." onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-err" id="login-err"></div>
+    <button class="login-btn" onclick="doLogin()">ВОЙТИ</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <div class="logo">ARIJI <span>CS2</span></div>
+    <div class="header-right">
+      <span class="admin-badge" id="admin-badge" style="display:none">ADMIN</span>
+      <button class="logout-btn" onclick="logout()">Выйти</button>
+    </div>
+  </header>
+  <nav>
+    <div class="nav-tab active" onclick="switchTab('overview',this)">Обзор</div>
+    <div class="nav-tab" onclick="switchTab('players',this)">Игроки</div>
+    <div class="nav-tab" onclick="switchTab('matches',this)">Матчи</div>
+    <div class="nav-tab" onclick="switchTab('roles',this)">Роли</div>
+    <div class="nav-tab" id="admin-tab" style="display:none" onclick="switchTab('admin',this)">+ Добавить матч</div>
+  </nav>
+  <main>
+    <div id="tab-overview"></div>
+    <div id="tab-players" style="display:none"></div>
+    <div id="tab-matches" style="display:none"></div>
+    <div id="tab-roles" style="display:none"></div>
+    <div id="tab-admin" style="display:none"></div>
+  </main>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'ariji2026';
+const VIEW_PASSWORD  = 'ariji';
+
+const PLAYERS = ['I_AM_IBRA','silntmonstr','Rivo','cartier','T-rex'];
+const AVATAR_COLORS = [
+  {bg:'#0d2a3d',color:'#00e5ff'},
+  {bg:'#0d2d1e',color:'#00c97a'},
+  {bg:'#2d1a0d',color:'#ff8c40'},
+  {bg:'#2d0d1a',color:'#ff3d6e'},
+  {bg:'#1a0d2d',color:'#c084fc'}
+];
+
+const DEFAULT_MATCHES = [
+  {num:7,date:'03.04.2026',stats:{I_AM_IBRA:{k:38,h:7,hs:50},silntmonstr:{k:28,h:8,hs:43},Rivo:{k:23,h:6,hs:48},cartier:{k:28,h:10,hs:38},'T-rex':{k:24,h:10,hs:27}}},
+  {num:6,date:'29.03.2026',stats:{I_AM_IBRA:{k:49,h:8,hs:43},silntmonstr:{k:37,h:16,hs:44},Rivo:{k:37,h:8,hs:52},cartier:{k:43,h:11,hs:56},'T-rex':{k:40,h:16,hs:27}}},
+  {num:5,date:'22.03.2026',stats:{I_AM_IBRA:{k:57,h:23,hs:54},silntmonstr:{k:35,h:12,hs:26},Rivo:{k:34,h:18,hs:33},cartier:{k:53,h:11,hs:40},'T-rex':{k:63,h:9,hs:18}}},
+  {num:4,date:'19.03.2026',stats:{I_AM_IBRA:{k:57,h:10,hs:48},silntmonstr:{k:24,h:10,hs:43},Rivo:{k:28,h:14,hs:27},cartier:{k:42,h:14,hs:31},'T-rex':{k:50,h:15,hs:24}}},
+  {num:3,date:'08.03.2026',stats:{I_AM_IBRA:{k:50,h:15,hs:33},silntmonstr:{k:31,h:11,hs:22},Rivo:{k:31,h:13,hs:35},cartier:{k:38,h:13,hs:36},'T-rex':{k:51,h:15,hs:29}}},
+  {num:2,date:'01.03.2026',stats:{I_AM_IBRA:{k:61,h:17,hs:35},silntmonstr:{k:42,h:17,hs:28},Rivo:{k:34,h:17,hs:33},cartier:{k:40,h:18,hs:25},'T-rex':{k:65,h:17,hs:16}}},
+  {num:1,date:'22.02.2026',stats:{I_AM_IBRA:{k:19,h:6,hs:42},silntmonstr:{k:19,h:5,hs:31},Rivo:{k:12,h:7,hs:83},cartier:{k:15,h:6,hs:26},'T-rex':null}},
+];
+
+let isAdmin = false;
+let matches = [];
+
+function loadMatches(){
+  try{
+    const saved = localStorage.getItem('ariji_matches');
+    matches = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_MATCHES));
+  } catch(e){ matches = JSON.parse(JSON.stringify(DEFAULT_MATCHES)); }
+}
+function saveMatches(){ localStorage.setItem('ariji_matches', JSON.stringify(matches)); }
+
+function doLogin(){
+  const pw = document.getElementById('pw-input').value.trim();
+  if(pw === ADMIN_PASSWORD){ isAdmin=true; enterApp(); }
+  else if(pw === VIEW_PASSWORD){ isAdmin=false; enterApp(); }
+  else { document.getElementById('login-err').textContent='Неверный пароль'; }
+}
+function enterApp(){
+  document.getElementById('login-screen').style.display='none';
+  const app = document.getElementById('app');
+  app.classList.add('visible');
+  if(isAdmin){
+    document.getElementById('admin-badge').style.display='inline';
+    document.getElementById('admin-tab').style.display='block';
+  }
+  loadMatches();
+  renderOverview();
+}
+function logout(){
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('pw-input').value='';
+  document.getElementById('login-err').textContent='';
+  isAdmin=false;
+}
+
+function switchTab(name, el){
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  ['overview','players','matches','roles','admin'].forEach(t=>{
+    document.getElementById('tab-'+t).style.display = t===name?'block':'none';
+  });
+  if(name==='overview') renderOverview();
+  if(name==='players') renderPlayers();
+  if(name==='matches') renderMatches();
+  if(name==='roles') renderRoles();
+  if(name==='admin') renderAdmin();
+}
+
+function ini(n){ return n.slice(0,2).toUpperCase(); }
+function avt(i){ return AVATAR_COLORS[i%AVATAR_COLORS.length]; }
+
+function playerTotals(excludeMatch1ForTrex){
+  const t={};
+  PLAYERS.forEach(p=>{ t[p]={k:0,h:0,hs_sum:0,hs_count:0,games:0}; });
+  matches.forEach(m=>{
+    PLAYERS.forEach(p=>{
+      if(excludeMatch1ForTrex && p==='T-rex' && m.num===1) return;
+      const s=m.stats[p];
+      if(s){ t[p].k+=s.k; t[p].h+=s.h; t[p].hs_sum+=s.hs; t[p].hs_count++; t[p].games++; }
+    });
+  });
+  return t;
+}
+
+function kdVal(t,p){ return t[p].h>0?(t[p].k/t[p].h):0; }
+function kdStr(t,p){ return t[p].h>0?(t[p].k/t[p].h).toFixed(2):'∞'; }
+function kdClass(v){ return v>=1.2?'kd-good':v>=0.9?'kd-ok':'kd-bad'; }
+
+function renderOverview(){
+  const t = playerTotals(true);
+  const totalK = PLAYERS.reduce((s,p)=>s+t[p].k,0);
+  const sorted = [...PLAYERS].sort((a,b)=>t[b].k-t[a].k);
+  const bestKdP = [...PLAYERS].sort((a,b)=>kdVal(t,b)-kdVal(t,a))[0];
+
+  let rows = sorted.map((p,i)=>{
+    const ci = PLAYERS.indexOf(p);
+    const c = avt(ci);
+    const avgHs = t[p].hs_count>0?Math.round(t[p].hs_sum/t[p].hs_count):0;
+    const kd = kdStr(t,p);
+    const kdv = kdVal(t,p);
+    const note = p==='T-rex' ? '<span class="note-pill">6 матчей</span>' : '';
+    const crwn = i===0 ? '<span class="crown">★</span>' : '';
+    return `<tr>
+      <td><span class="rank-num">${i+1}</span></td>
+      <td><div class="player-cell">
+        <span class="avatar" style="background:${c.bg};color:${c.color}">${ini(p)}</span>
+        ${crwn}${p}${note}
+      </div></td>
+      <td class="num">${t[p].k}</td>
+      <td class="num">${t[p].h}</td>
+      <td class="num ${kdClass(kdv)}">${kd}</td>
+      <td class="num">${avgHs}%</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('tab-overview').innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Матчей</div>
+        <div class="stat-card-val" style="color:var(--accent)">${matches.length}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Всего kills</div>
+        <div class="stat-card-val">${totalK}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Лучший K/D</div>
+        <div class="stat-card-val" style="color:var(--green)">${kdStr(t,bestKdP)}</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Топ игрок</div>
+        <div class="stat-card-val" style="font-size:17px;padding-top:4px">${sorted[0]}</div>
+      </div>
+    </div>
+    <div class="section-title">Рейтинг команды</div>
+    <div class="panel">
+      <table class="panel-table">
+        <thead><tr>
+          <th style="width:30px">#</th>
+          <th>Игрок</th>
+          <th class="num">Kills</th>
+          <th class="num">Assists</th>
+          <th class="num">K/D</th>
+          <th class="num">HS%</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+function renderPlayers(){
+  const t = playerTotals(true);
+  let html = '';
+  PLAYERS.forEach((p,i)=>{
+    const c = avt(i);
+    const avgHs = t[p].hs_count>0?Math.round(t[p].hs_sum/t[p].hs_count):0;
+    const kd = kdStr(t,p);
+    const kdv = kdVal(t,p);
+    const note = p==='T-rex'?'<span class="note-pill">6 матчей</span>':'';
+
+    let matchRows = matches.map(m=>{
+      const s = m.stats[p];
+      if(!s) return `<tr><td>${m.num}</td><td>${m.date}</td><td colspan="3" style="color:var(--muted);font-size:13px">не играл</td></tr>`;
+      const mkd = s.h>0?(s.k/s.h).toFixed(2):'∞';
+      const mkdv = s.h>0?s.k/s.h:0;
+      return `<tr>
+        <td style="color:var(--muted)">${m.num}</td>
+        <td style="color:var(--muted)">${m.date}</td>
+        <td class="num">${s.k}</td>
+        <td class="num">${s.h}</td>
+        <td class="num ${kdClass(mkdv)}">${mkd}</td>
+      </tr>`;
+    }).join('');
+
+    html += `<div class="panel" style="margin-bottom:16px">
+      <div style="padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;background:var(--surface2)">
+        <span class="avatar" style="width:42px;height:42px;font-size:14px;background:${c.bg};color:${c.color}">${ini(p)}</span>
+        <div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px">${p} ${note}</div>
+          <div style="font-size:12px;color:var(--muted)">${t[p].games} матчей</div>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:20px;text-align:center">
+          <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">${t[p].k}</div><div style="font-size:11px;color:var(--muted)">KILLS</div></div>
+          <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;color:var(--${kdv>=1.2?'green':kdv>=0.9?'gold':'red'})">${kd}</div><div style="font-size:11px;color:var(--muted)">K/D</div></div>
+          <div><div style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700">${avgHs}%</div><div style="font-size:11px;color:var(--muted)">HS</div></div>
+        </div>
+      </div>
+      <table class="panel-table">
+        <thead><tr><th>#</th><th>Дата</th><th class="num">Kills</th><th class="num">Assists</th><th class="num">K/D</th></tr></thead>
+        <tbody>${matchRows}</tbody>
+      </table>
+    </div>`;
+  });
+  document.getElementById('tab-players').innerHTML = html;
+}
+
+function renderMatches(){
+  let html = '';
+  matches.forEach(m=>{
+    const totalK = Object.values(m.stats).filter(Boolean).reduce((s,v)=>s+v.k,0);
+    let rows = PLAYERS.map((p,i)=>{
+      const s = m.stats[p];
+      const c = avt(i);
+      if(!s) return `<tr><td><div class="player-cell"><span class="avatar" style="background:${c.bg};color:${c.color}">${ini(p)}</span>${p}</div></td><td colspan="3" style="color:var(--muted);font-size:13px">не играл</td></tr>`;
+      const kdv = s.h>0?s.k/s.h:0;
+      return `<tr>
+        <td><div class="player-cell"><span class="avatar" style="background:${c.bg};color:${c.color}">${ini(p)}</span>${p}</div></td>
+        <td class="num">${s.k}</td>
+        <td class="num">${s.h}</td>
+        <td class="num ${kdClass(kdv)}">${s.h>0?(s.k/s.h).toFixed(2):'∞'}</td>
+        <td class="num">${s.hs}%</td>
+      </tr>`;
+    }).join('');
+
+    html += `<div class="match-card">
+      <div class="match-header">
+        <div>
+          <div class="match-num">Матч #${m.num}${m.num===1?' <span style="font-size:12px;color:var(--gold)">T-rex не играл</span>':''}</div>
+          <div class="match-date">${m.date}</div>
+        </div>
+        <div class="match-total">${totalK} kills</div>
+      </div>
+      <table class="panel-table">
+        <thead><tr><th>Игрок</th><th class="num">Kills</th><th class="num">Assists</th><th class="num">K/D</th><th class="num">HS%</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  });
+  document.getElementById('tab-matches').innerHTML = html;
+}
+
+let absentPlayers = new Set();
+
+function renderAdmin(){
+  if(!isAdmin){ document.getElementById('tab-admin').innerHTML='<p style="color:var(--muted)">Нет доступа.</p>'; return; }
+  absentPlayers = new Set();
+  const nextNum = matches.length > 0 ? Math.max(...matches.map(m=>m.num))+1 : 1;
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2,'0');
+  const mm = String(today.getMonth()+1).padStart(2,'0');
+  const yyyy = today.getFullYear();
+  const todayStr = `${dd}.${mm}.${yyyy}`;
+
+  let playerForms = PLAYERS.map((p,i)=>{
+    const c = avt(i);
+    return `<div class="player-row" id="prow-${i}">
+      <div class="player-row-name">
+        <span class="avatar" style="width:26px;height:26px;font-size:10px;background:${c.bg};color:${c.color}">${ini(p)}</span>
+        ${p}
+        <button class="absent-toggle" id="absent-${i}" onclick="toggleAbsent(${i},'${p}')">не играл</button>
+      </div>
+      <div class="player-row-fields" id="pfields-${i}">
+        <div><div class="form-group"><label>Kills</label><input type="number" id="k-${i}" min="0" placeholder="0"></div></div>
+        <div><div class="form-group"><label>Assists</label><input type="number" id="h-${i}" min="0" placeholder="0"></div></div>
+        <div><div class="form-group"><label>HS%</label><input type="number" id="hs-${i}" min="0" max="100" placeholder="0"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('tab-admin').innerHTML = `
+    <div class="admin-panel">
+      <h3>Добавить матч #${nextNum}</h3>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Дата матча</label>
+          <input type="text" id="m-date" value="${todayStr}" placeholder="дд.мм.гггг">
+        </div>
+      </div>
+      <div style="margin-top:16px;margin-bottom:10px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">Статистика игроков</div>
+      <div class="player-inputs">${playerForms}</div>
+      <button class="submit-btn" onclick="addMatch()">СОХРАНИТЬ МАТЧ</button>
+      <div class="success-msg" id="success-msg"></div>
+    </div>`;
+}
+
+function renderRoles(){
+  const ROLES = [
+    {
+      player: 'I_AM_IBRA',
+      icon: '⭐',
+      iconBg: '#1a2a0d', iconColor: '#00c97a',
+      role: 'Star Fragger / Entry',
+      badgeBg: 'rgba(0,201,122,0.1)', badgeColor: '#00c97a', badgeBorder: 'rgba(0,201,122,0.25)',
+      strengths: [
+        'Самый стабильный по kills в каждом матче',
+        'Высокий HS% (34–58%) — точные выстрелы в голову',
+        'Тройные и квадро-убийства в сложных раундах',
+        'Не теряет концентрацию даже в тяжёлых матчах',
+      ],
+      positions: ['A-site', 'Mid control', 'Aggressive peek', 'B-site rush', 'Retake'],
+    },
+    {
+      player: 'T-rex',
+      icon: '🎯',
+      iconBg: '#0d1f2d', iconColor: '#00e5ff',
+      role: 'AWPer',
+      badgeBg: 'rgba(0,229,255,0.1)', badgeColor: '#00e5ff', badgeBorder: 'rgba(0,229,255,0.25)',
+      strengths: [
+        'Контролирует длинные дистанции и открытые углы',
+        'Много assists — видит карту, помогает команде',
+        'Высокий kill count (топ команды по avg kills)',
+        'Адаптируется под разные карты и ситуации',
+      ],
+      positions: ['Long A', 'Mid AWP', 'B-site hold', 'Connector', 'Agressive AWP peek'],
+    },
+    {
+      player: 'silntmonstr',
+      icon: '🕵️',
+      iconBg: '#1a1a0d', iconColor: '#ffc840',
+      role: 'Lurker',
+      badgeBg: 'rgba(255,200,64,0.1)', badgeColor: '#ffc840', badgeBorder: 'rgba(255,200,64,0.25)',
+      strengths: [
+        'Рекордный HS% 61% на Nuke — точные одиночные выстрелы',
+        'Тихо заходит с фланга, застаёт врасплох',
+        'Четверные убийства — опасен в клатч ситуациях',
+        'Замедляет ротации противника',
+      ],
+      positions: ['Фланги', 'B-site одиночный', 'Ротация через mid', 'Clutch позиции', 'Кемп углов'],
+    },
+    {
+      player: 'cartier',
+      icon: '🔫',
+      iconBg: '#2d0d1a', iconColor: '#ff3d6e',
+      role: 'Second Entry / Rifler',
+      badgeBg: 'rgba(255,61,110,0.1)', badgeColor: '#ff3d6e', badgeBorder: 'rgba(255,61,110,0.25)',
+      strengths: [
+        '"Оружейный мастер" — играет с разным оружием, адаптируется',
+        'HS% до 60% — опасен в ближнем и среднем бою',
+        'Заходит вторым, добивает после entry',
+        'Стабилен на разных картах (Mirage, Dust2, Nuke)',
+      ],
+      positions: ['B-site entry', 'A-site поддержка', 'Mid fight', 'Short A', 'Ближний бой'],
+    },
+    {
+      player: 'Rivo',
+      icon: '🛡️',
+      iconBg: '#0d1a2d', iconColor: '#6b9cff',
+      role: 'Support',
+      badgeBg: 'rgba(107,156,255,0.1)', badgeColor: '#6b9cff', badgeBorder: 'rgba(107,156,255,0.25)',
+      strengths: [
+        'Больше всего assists в команде — живёт для тиммейтов',
+        'Открывает позиции для entry фрагеров',
+        '"Заводила" — создаёт давление на противника',
+        'Смоуки, флэшки, информация для команды',
+      ],
+      positions: ['Support A-site', 'Support B-site', 'Flash entry', 'Smoke позиции', 'Retake поддержка'],
+    },
+  ];
+
+  const t = playerTotals(true);
+
+  document.getElementById('tab-roles').innerHTML = `
+    <div class="section-title" style="margin-bottom:16px">Роли и сильные стороны</div>
+    ${ROLES.map((r,i)=>{
+      const ci = PLAYERS.indexOf(r.player);
+      const c = avt(ci);
+      const avgHs = t[r.player].hs_count>0?Math.round(t[r.player].hs_sum/t[r.player].hs_count):0;
+      const kd = kdStr(t,r.player);
+      return `<div class="role-card">
+        <div class="role-card-header">
+          <div class="role-icon" style="background:${r.iconBg};color:${r.iconColor}">${r.icon}</div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+              <div class="role-title">${r.player}</div>
+              <span class="role-badge" style="background:${r.badgeBg};color:${r.badgeColor};border:1px solid ${r.badgeBorder}">${r.role}</span>
+            </div>
+            <div style="display:flex;gap:16px;margin-top:8px">
+              <div style="font-size:12px;color:var(--muted)">Kills: <span style="color:var(--text);font-weight:500">${t[r.player].k}</span></div>
+              <div style="font-size:12px;color:var(--muted)">K/D: <span style="color:var(--text);font-weight:500">${kd}</span></div>
+              <div style="font-size:12px;color:var(--muted)">HS%: <span style="color:var(--text);font-weight:500">${avgHs}%</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="role-body">
+          <div>
+            <div class="role-section-title">Сильные стороны</div>
+            ${r.strengths.map(s=>`<div class="strength-item">
+              <div class="strength-dot" style="background:${r.iconColor}"></div>
+              <div>${s}</div>
+            </div>`).join('')}
+          </div>
+          <div>
+            <div class="role-section-title">Позиции</div>
+            <div>${r.positions.map(p=>`<span class="pos-tag">${p}</span>`).join('')}</div>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function toggleAbsent(i, p){
+  const btn = document.getElementById('absent-'+i);
+  const fields = document.getElementById('pfields-'+i);
+  if(absentPlayers.has(p)){
+    absentPlayers.delete(p);
+    btn.classList.remove('active');
+    fields.style.opacity='1';
+    fields.style.pointerEvents='auto';
+  } else {
+    absentPlayers.add(p);
+    btn.classList.add('active');
+    fields.style.opacity='0.3';
+    fields.style.pointerEvents='none';
+  }
+}
+
+function addMatch(){
+  const date = document.getElementById('m-date').value.trim();
+  if(!date){ alert('Укажи дату!'); return; }
+  const nextNum = matches.length>0?Math.max(...matches.map(m=>m.num))+1:1;
+  const stats = {};
+  PLAYERS.forEach((p,i)=>{
+    if(absentPlayers.has(p)){ stats[p]=null; return; }
+    stats[p]={
+      k:parseInt(document.getElementById('k-'+i).value)||0,
+      h:parseInt(document.getElementById('h-'+i).value)||0,
+      hs:parseInt(document.getElementById('hs-'+i).value)||0,
+    };
+  });
+  matches.unshift({num:nextNum, date, stats});
+  saveMatches();
+  document.getElementById('success-msg').textContent = `Матч #${nextNum} сохранён!`;
+  setTimeout(()=>{ document.getElementById('success-msg').textContent=''; renderAdmin(); },2000);
+}
+</script>
+</body>
+</html>
