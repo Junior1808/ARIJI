@@ -7,59 +7,60 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0a0b0e;
-  --surface: #111318;
-  --surface2: #181b22;
-  --border: #1e2330;
-  --border2: #252c3d;
-  --accent: #00e5ff;
-  --accent2: #ff3d6e;
-  --text: #e8eaf0;
-  --muted: #5a6380;
-  --muted2: #8892aa;
-  --green: #00c97a;
-  --red: #ff3d6e;
-  --gold: #ffc840;
+  --bg: #f0f2f5;
+  --surface: #ffffff;
+  --surface2: #f7f8fa;
+  --border: #e4e6eb;
+  --border2: #dddfe2;
+  --accent: #1877f2;
+  --accent-hover: #166fe5;
+  --accent-light: #e7f0fd;
+  --text: #050505;
+  --muted: #8a8d91;
+  --muted2: #606770;
+  --green: #42b72a;
+  --green-light: #e6f4e1;
+  --red: #fa3e3e;
+  --red-light: #fdecea;
+  --gold: #f7b731;
+  --gold-light: #fef9e7;
+  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+html{background:var(--bg);color:var(--text);font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
 body{min-height:100vh}
 
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 
 /* LOGIN */
 #login-screen{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--bg);position:relative;overflow:hidden;
-}
-#login-screen::before{
-  content:'';position:absolute;width:600px;height:600px;
-  background:radial-gradient(circle,rgba(0,229,255,0.04) 0%,transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+  background:linear-gradient(160deg,#1877f2 0%,#0d5dbf 100%);
 }
 .login-box{
-  width:340px;padding:2.5rem;
-  background:var(--surface);border:1px solid var(--border2);border-radius:16px;
-  position:relative;z-index:1;
+  width:360px;padding:2.5rem;
+  background:#fff;border-radius:20px;
+  box-shadow:var(--shadow-md);
+  text-align:center;
 }
-.login-logo{font-family:'Rajdhani',sans-serif;font-size:36px;font-weight:700;letter-spacing:4px;color:var(--accent);margin-bottom:4px}
-.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;letter-spacing:1px;text-transform:uppercase}
-.login-box label{font-size:12px;color:var(--muted2);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px}
+.login-logo{font-size:40px;font-weight:800;color:var(--accent);margin-bottom:4px;letter-spacing:-1px}
+.login-sub{font-size:13px;color:var(--muted);margin-bottom:2rem;font-weight:400}
+.login-box label{font-size:13px;color:var(--muted2);display:block;margin-bottom:6px;text-align:left;font-weight:500}
 .login-box input{
-  width:100%;background:var(--bg);border:1px solid var(--border2);border-radius:8px;
-  padding:10px 14px;color:var(--text);font-size:15px;outline:none;transition:border 0.2s;
+  width:100%;background:#f0f2f5;border:1.5px solid transparent;border-radius:10px;
+  padding:12px 14px;color:var(--text);font-size:15px;outline:none;transition:all 0.2s;
 }
-.login-box input:focus{border-color:var(--accent)}
+.login-box input:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 3px rgba(24,119,242,0.15)}
 .login-box input::placeholder{color:var(--muted)}
 .login-btn{
-  width:100%;margin-top:1.25rem;padding:11px;border-radius:8px;border:none;cursor:pointer;
-  background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;
-  letter-spacing:1px;transition:opacity 0.2s;
+  width:100%;margin-top:1.25rem;padding:13px;border-radius:10px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-size:17px;font-weight:700;
+  transition:background 0.2s;letter-spacing:0.2px;
 }
-.login-btn:hover{opacity:0.85}
+.login-btn:hover{background:var(--accent-hover)}
 .login-err{font-size:13px;color:var(--red);margin-top:10px;min-height:18px}
 
 /* MAIN APP */
@@ -68,139 +69,141 @@ body{min-height:100vh}
 
 /* HEADER */
 header{
-  padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;
-  background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+  padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;
+  background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 3px rgba(0,0,0,0.08);
 }
-.logo{font-family:'Rajdhani',sans-serif;font-size:24px;font-weight:700;letter-spacing:3px;color:var(--accent)}
-.logo span{color:var(--muted);font-weight:400;font-size:13px;margin-left:10px;letter-spacing:1px}
-.header-right{display:flex;align-items:center;gap:12px}
+.logo{font-size:22px;font-weight:800;color:var(--accent);letter-spacing:-0.5px}
+.logo span{color:var(--muted);font-weight:400;font-size:13px;margin-left:8px}
+.header-right{display:flex;align-items:center;gap:10px}
 .admin-badge{
-  font-size:11px;background:rgba(0,229,255,0.1);color:var(--accent);
-  padding:3px 10px;border-radius:20px;border:1px solid rgba(0,229,255,0.2);letter-spacing:0.5px;
+  font-size:12px;background:var(--accent-light);color:var(--accent);
+  padding:4px 12px;border-radius:20px;font-weight:600;
 }
 .logout-btn{
-  font-size:12px;color:var(--muted);cursor:pointer;padding:4px 10px;border-radius:6px;
-  border:1px solid var(--border2);background:transparent;transition:all 0.2s;
+  font-size:13px;color:var(--muted2);cursor:pointer;padding:6px 14px;border-radius:8px;
+  border:1.5px solid var(--border2);background:transparent;transition:all 0.2s;font-weight:500;
 }
-.logout-btn:hover{color:var(--text);border-color:var(--border2)}
+.logout-btn:hover{background:var(--bg);color:var(--text)}
 
 /* NAV */
 nav{
-  padding:0 24px;background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 20px;background:#fff;border-bottom:1px solid var(--border);
   display:flex;gap:0;overflow-x:auto;
 }
 .nav-tab{
-  padding:14px 20px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;
-  border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;letter-spacing:0.3px;
+  padding:14px 18px;font-size:14px;font-weight:500;color:var(--muted2);cursor:pointer;
+  border-bottom:3px solid transparent;white-space:nowrap;transition:all 0.15s;
 }
-.nav-tab:hover{color:var(--muted2)}
-.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-tab:hover{color:var(--accent);background:var(--accent-light)}
+.nav-tab.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
 
 /* CONTENT */
-main{flex:1;padding:24px;max-width:860px;width:100%;margin:0 auto}
+main{flex:1;padding:20px;max-width:880px;width:100%;margin:0 auto}
 
 /* STAT CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px}
-.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
-.stat-card-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px}
-.stat-card-val{font-size:26px;font-weight:600;font-family:'Rajdhani',sans-serif;letter-spacing:1px}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:#fff;border-radius:14px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.stat-card-label{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.4px}
+.stat-card-val{font-size:26px;font-weight:700;color:var(--text)}
 
 /* TABLE */
-.section-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:600;letter-spacing:1px;color:var(--muted2);margin-bottom:14px;text-transform:uppercase}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.section-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:12px}
+.panel{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow)}
 .panel-table{width:100%;border-collapse:collapse}
 .panel-table th{
-  padding:10px 16px;font-size:11px;font-weight:500;color:var(--muted);
-  text-transform:uppercase;letter-spacing:0.7px;text-align:left;border-bottom:1px solid var(--border);
+  padding:10px 16px;font-size:12px;font-weight:600;color:var(--muted2);
+  text-transform:uppercase;letter-spacing:0.5px;text-align:left;border-bottom:1px solid var(--border);
   background:var(--surface2);
 }
 .panel-table th.num{text-align:right}
-.panel-table td{padding:12px 16px;font-size:14px;border-bottom:1px solid var(--border);vertical-align:middle}
+.panel-table td{padding:12px 16px;font-size:14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text)}
 .panel-table tr:last-child td{border-bottom:none}
-.panel-table tr:hover td{background:var(--surface2)}
-.panel-table td.num{text-align:right;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600}
-.rank-num{color:var(--muted);font-size:12px;min-width:20px;display:inline-block}
+.panel-table tr:hover td{background:#f7f9ff}
+.panel-table td.num{text-align:right;font-size:15px;font-weight:600}
+.rank-num{color:var(--muted);font-size:13px;min-width:20px;display:inline-block;font-weight:600}
 .avatar{
-  width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:600;margin-right:8px;vertical-align:middle;flex-shrink:0;
+  width:34px;height:34px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;margin-right:10px;vertical-align:middle;flex-shrink:0;
 }
 .player-cell{display:flex;align-items:center}
-.kd-good{color:var(--green)}
-.kd-ok{color:var(--gold)}
-.kd-bad{color:var(--red)}
+.kd-good{color:var(--green);font-weight:700}
+.kd-ok{color:var(--gold);font-weight:700}
+.kd-bad{color:var(--red);font-weight:700}
 .note-pill{
-  font-size:10px;background:rgba(255,200,64,0.1);color:var(--gold);
-  padding:2px 7px;border-radius:10px;border:1px solid rgba(255,200,64,0.2);
-  margin-left:6px;vertical-align:middle;
+  font-size:10px;background:var(--gold-light);color:#b7860b;
+  padding:2px 8px;border-radius:10px;border:1px solid #f0d580;
+  margin-left:6px;vertical-align:middle;font-weight:500;
 }
 .crown{color:var(--gold);margin-right:4px;font-size:14px}
 
 /* MATCH CARDS */
 .match-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  margin-bottom:12px;overflow:hidden;
+  background:#fff;border:1px solid var(--border);border-radius:14px;
+  margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);
 }
 .match-header{
   padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);
   display:flex;align-items:center;justify-content:space-between;
 }
-.match-num{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700;letter-spacing:1px}
-.match-date{font-size:12px;color:var(--muted)}
-.match-total{font-size:12px;color:var(--muted2)}
+.match-num{font-size:15px;font-weight:700;color:var(--text)}
+.match-date{font-size:12px;color:var(--muted);font-weight:500}
+.match-total{font-size:13px;color:var(--accent);font-weight:600}
 
 /* ADMIN PANEL */
-.admin-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px}
-.admin-panel h3{font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:600;letter-spacing:1px;color:var(--accent);margin-bottom:16px;text-transform:uppercase}
+.admin-panel{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:var(--shadow)}
+.admin-panel h3{font-size:17px;font-weight:700;color:var(--accent);margin-bottom:16px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 .form-group{display:flex;flex-direction:column;gap:5px}
-.form-group label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+.form-group label{font-size:12px;color:var(--muted2);font-weight:600;text-transform:uppercase;letter-spacing:0.4px}
 .form-group input,.form-group select{
-  background:var(--bg);border:1px solid var(--border2);border-radius:8px;
-  padding:9px 12px;color:var(--text);font-size:14px;outline:none;transition:border 0.2s;
+  background:var(--bg);border:1.5px solid var(--border2);border-radius:10px;
+  padding:10px 12px;color:var(--text);font-size:14px;outline:none;transition:all 0.2s;
 }
-.form-group input:focus,.form-group select:focus{border-color:var(--accent)}
-.form-group select option{background:var(--surface)}
+.form-group input:focus,.form-group select:focus{background:#fff;border-color:var(--accent);box-shadow:0 0 0 3px rgba(24,119,242,0.12)}
+.form-group select option{background:#fff}
 .divider{grid-column:1/-1;border:none;border-top:1px solid var(--border);margin:4px 0}
-.player-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:4px}
+.player-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:4px}
 .player-row{
-  background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;
+  background:var(--bg);border:1.5px solid var(--border);border-radius:12px;padding:14px;box-sizing:border-box;overflow:hidden;
 }
-.player-row-name{font-size:13px;font-weight:500;margin-bottom:10px;display:flex;align-items:center;gap:8px}
-.player-row-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.player-row-fields input{padding:7px 10px;font-size:13px}
-.player-row-fields label{font-size:10px}
+.player-row-name{font-size:14px;font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:8px;color:var(--text)}
+.player-row-fields{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;width:100%}
+.player-row-fields input{padding:8px;font-size:13px;width:100%;min-width:0;background:#fff;border:1.5px solid var(--border2);border-radius:8px;color:var(--text);outline:none}
+.player-row-fields input:focus{border-color:var(--accent)}
+.player-row-fields label{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase}
 .absent-toggle{
-  font-size:11px;color:var(--muted);cursor:pointer;padding:3px 8px;border-radius:6px;
-  border:1px solid var(--border2);background:transparent;transition:all 0.2s;margin-left:auto;
+  font-size:11px;color:var(--muted2);cursor:pointer;padding:4px 10px;border-radius:20px;
+  border:1.5px solid var(--border2);background:#fff;transition:all 0.2s;margin-left:auto;font-weight:500;
 }
-.absent-toggle.active{color:var(--red);border-color:rgba(255,61,110,0.3);background:rgba(255,61,110,0.07)}
+.absent-toggle.active{color:var(--red);border-color:var(--red);background:var(--red-light)}
 .submit-btn{
-  margin-top:16px;padding:11px 24px;border-radius:8px;border:none;cursor:pointer;
-  background:var(--accent);color:#000;font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;
-  letter-spacing:1px;transition:opacity 0.2s;
+  margin-top:16px;padding:12px 28px;border-radius:10px;border:none;cursor:pointer;
+  background:var(--accent);color:#fff;font-size:15px;font-weight:700;
+  transition:background 0.2s;
 }
-.submit-btn:hover{opacity:0.85}
-.success-msg{font-size:13px;color:var(--green);margin-top:10px;min-height:18px}
+.submit-btn:hover{background:var(--accent-hover)}
+.success-msg{font-size:13px;color:var(--green);margin-top:10px;min-height:18px;font-weight:500}
 
 /* ROLE CARDS */
-.role-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;margin-bottom:16px;overflow:hidden}
-.role-card-header{padding:18px 20px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--border);background:var(--surface2)}
-.role-icon{font-size:26px;width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.role-title{font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;letter-spacing:1px}
-.role-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;letter-spacing:0.5px;margin-top:4px}
-.role-body{padding:18px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.role-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
-.strength-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;line-height:1.4}
+.role-card{background:#fff;border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;box-shadow:var(--shadow)}
+.role-card-header{padding:16px 20px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.role-icon{font-size:24px;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.role-title{font-size:17px;font-weight:700;color:var(--text)}
+.role-badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:600;margin-top:4px}
+.role-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.role-section-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;font-weight:600}
+.strength-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:13px;line-height:1.5;color:var(--text)}
 .strength-dot{width:6px;height:6px;border-radius:50%;margin-top:5px;flex-shrink:0}
-.pos-tag{display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;margin:3px 3px 3px 0;border:1px solid var(--border2);background:var(--bg);color:var(--muted2)}
+.pos-tag{display:inline-block;padding:4px 10px;border-radius:20px;font-size:12px;margin:3px 3px 3px 0;border:1.5px solid var(--border2);background:var(--bg);color:var(--muted2);font-weight:500}
 @media(max-width:600px){.role-body{grid-template-columns:1fr}}
 
 /* MOBILE */
 @media(max-width:600px){
-  main{padding:16px}
+  main{padding:12px}
   .panel-table th:nth-child(n+4),.panel-table td:nth-child(n+4){display:none}
-  header{padding:0 16px}
-  nav{padding:0 8px}
+  header{padding:0 14px}
+  nav{padding:0 4px}
 }
 </style>
 </head>
@@ -249,33 +252,39 @@ const VIEW_PASSWORD  = 'ariji';
 
 const PLAYERS = ['I_AM_IBRA','silntmonstr','Rivo','cartier','T-rex'];
 const AVATAR_COLORS = [
-  {bg:'#0d2a3d',color:'#00e5ff'},
-  {bg:'#0d2d1e',color:'#00c97a'},
-  {bg:'#2d1a0d',color:'#ff8c40'},
-  {bg:'#2d0d1a',color:'#ff3d6e'},
-  {bg:'#1a0d2d',color:'#c084fc'}
+  {bg:'#dbeafe',color:'#1d4ed8'},
+  {bg:'#dcfce7',color:'#15803d'},
+  {bg:'#ffedd5',color:'#c2410c'},
+  {bg:'#fce7f3',color:'#be185d'},
+  {bg:'#ede9fe',color:'#7c3aed'}
 ];
 
 const DEFAULT_MATCHES = [
-  {num:7,date:'03.04.2026',stats:{I_AM_IBRA:{k:38,h:7,hs:50},silntmonstr:{k:28,h:8,hs:43},Rivo:{k:23,h:6,hs:48},cartier:{k:28,h:10,hs:38},'T-rex':{k:24,h:10,hs:27}}},
-  {num:6,date:'29.03.2026',stats:{I_AM_IBRA:{k:49,h:8,hs:43},silntmonstr:{k:37,h:16,hs:44},Rivo:{k:37,h:8,hs:52},cartier:{k:43,h:11,hs:56},'T-rex':{k:40,h:16,hs:27}}},
-  {num:5,date:'22.03.2026',stats:{I_AM_IBRA:{k:57,h:23,hs:54},silntmonstr:{k:35,h:12,hs:26},Rivo:{k:34,h:18,hs:33},cartier:{k:53,h:11,hs:40},'T-rex':{k:63,h:9,hs:18}}},
-  {num:4,date:'19.03.2026',stats:{I_AM_IBRA:{k:57,h:10,hs:48},silntmonstr:{k:24,h:10,hs:43},Rivo:{k:28,h:14,hs:27},cartier:{k:42,h:14,hs:31},'T-rex':{k:50,h:15,hs:24}}},
-  {num:3,date:'08.03.2026',stats:{I_AM_IBRA:{k:50,h:15,hs:33},silntmonstr:{k:31,h:11,hs:22},Rivo:{k:31,h:13,hs:35},cartier:{k:38,h:13,hs:36},'T-rex':{k:51,h:15,hs:29}}},
-  {num:2,date:'01.03.2026',stats:{I_AM_IBRA:{k:61,h:17,hs:35},silntmonstr:{k:42,h:17,hs:28},Rivo:{k:34,h:17,hs:33},cartier:{k:40,h:18,hs:25},'T-rex':{k:65,h:17,hs:16}}},
-  {num:1,date:'22.02.2026',stats:{I_AM_IBRA:{k:19,h:6,hs:42},silntmonstr:{k:19,h:5,hs:31},Rivo:{k:12,h:7,hs:83},cartier:{k:15,h:6,hs:26},'T-rex':null}},
+  {num:6,date:'03.04.2026',stats:{I_AM_IBRA:{k:38,h:7,hs:50},silntmonstr:{k:28,h:8,hs:43},Rivo:{k:23,h:6,hs:48},cartier:{k:28,h:10,hs:38},'T-rex':{k:24,h:10,hs:27}}},
+  {num:5,date:'29.03.2026',stats:{I_AM_IBRA:{k:49,h:8,hs:43},silntmonstr:{k:37,h:16,hs:44},Rivo:{k:37,h:8,hs:52},cartier:{k:43,h:11,hs:56},'T-rex':{k:40,h:16,hs:27}}},
+  {num:4,date:'22.03.2026',stats:{I_AM_IBRA:{k:57,h:23,hs:54},silntmonstr:{k:35,h:12,hs:26},Rivo:{k:34,h:18,hs:33},cartier:{k:53,h:11,hs:40},'T-rex':{k:63,h:9,hs:18}}},
+  {num:3,date:'19.03.2026',stats:{I_AM_IBRA:{k:57,h:10,hs:48},silntmonstr:{k:24,h:10,hs:43},Rivo:{k:28,h:14,hs:27},cartier:{k:42,h:14,hs:31},'T-rex':{k:50,h:15,hs:24}}},
+  {num:2,date:'08.03.2026',stats:{I_AM_IBRA:{k:50,h:15,hs:33},silntmonstr:{k:31,h:11,hs:22},Rivo:{k:31,h:13,hs:35},cartier:{k:38,h:13,hs:36},'T-rex':{k:51,h:15,hs:29}}},
+  {num:1,date:'01.03.2026',stats:{I_AM_IBRA:{k:61,h:17,hs:35},silntmonstr:{k:42,h:17,hs:28},Rivo:{k:34,h:17,hs:33},cartier:{k:40,h:18,hs:25},'T-rex':{k:65,h:17,hs:16}}},
 ];
 
 let isAdmin = false;
 let matches = [];
 
+function safeGet(key){
+  try{ return localStorage.getItem(key); } catch(e){ return null; }
+}
+function safeSet(key,val){
+  try{ localStorage.setItem(key,val); } catch(e){}
+}
+
 function loadMatches(){
   try{
-    const saved = localStorage.getItem('ariji_matches');
+    const saved = safeGet('ariji_matches');
     matches = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_MATCHES));
   } catch(e){ matches = JSON.parse(JSON.stringify(DEFAULT_MATCHES)); }
 }
-function saveMatches(){ localStorage.setItem('ariji_matches', JSON.stringify(matches)); }
+function saveMatches(){ safeSet('ariji_matches', JSON.stringify(matches)); }
 
 function doLogin(){
   const pw = document.getElementById('pw-input').value.trim();
@@ -284,15 +293,19 @@ function doLogin(){
   else { document.getElementById('login-err').textContent='Неверный пароль'; }
 }
 function enterApp(){
-  document.getElementById('login-screen').style.display='none';
-  const app = document.getElementById('app');
-  app.classList.add('visible');
-  if(isAdmin){
-    document.getElementById('admin-badge').style.display='inline';
-    document.getElementById('admin-tab').style.display='block';
+  try{
+    document.getElementById('login-screen').style.display='none';
+    const app = document.getElementById('app');
+    app.classList.add('visible');
+    if(isAdmin){
+      document.getElementById('admin-badge').style.display='inline';
+      document.getElementById('admin-tab').style.display='block';
+    }
+    loadMatches();
+    renderOverview();
+  } catch(e){
+    console.error('enterApp error:',e);
   }
-  loadMatches();
-  renderOverview();
 }
 function logout(){
   document.getElementById('login-screen').style.display='flex';
@@ -323,7 +336,6 @@ function playerTotals(excludeMatch1ForTrex){
   PLAYERS.forEach(p=>{ t[p]={k:0,h:0,hs_sum:0,hs_count:0,games:0}; });
   matches.forEach(m=>{
     PLAYERS.forEach(p=>{
-      if(excludeMatch1ForTrex && p==='T-rex' && m.num===1) return;
       const s=m.stats[p];
       if(s){ t[p].k+=s.k; t[p].h+=s.h; t[p].hs_sum+=s.hs; t[p].hs_count++; t[p].games++; }
     });
@@ -347,7 +359,7 @@ function renderOverview(){
     const avgHs = t[p].hs_count>0?Math.round(t[p].hs_sum/t[p].hs_count):0;
     const kd = kdStr(t,p);
     const kdv = kdVal(t,p);
-    const note = p==='T-rex' ? '<span class="note-pill">6 матчей</span>' : '';
+    const note = '';
     const crwn = i===0 ? '<span class="crown">★</span>' : '';
     return `<tr>
       <td><span class="rank-num">${i+1}</span></td>
@@ -405,7 +417,7 @@ function renderPlayers(){
     const avgHs = t[p].hs_count>0?Math.round(t[p].hs_sum/t[p].hs_count):0;
     const kd = kdStr(t,p);
     const kdv = kdVal(t,p);
-    const note = p==='T-rex'?'<span class="note-pill">6 матчей</span>':'';
+    const note = p==='T-rex'?'':'';
 
     let matchRows = matches.map(m=>{
       const s = m.stats[p];
@@ -527,9 +539,9 @@ function renderRoles(){
     {
       player: 'I_AM_IBRA',
       icon: '⭐',
-      iconBg: '#1a2a0d', iconColor: '#00c97a',
+      iconBg: '#dcfce7', iconColor: '#15803d',
       role: 'Star Fragger / Entry',
-      badgeBg: 'rgba(0,201,122,0.1)', badgeColor: '#00c97a', badgeBorder: 'rgba(0,201,122,0.25)',
+      badgeBg: '#dcfce7', badgeColor: '#15803d', badgeBorder: '#bbf7d0',
       strengths: [
         'Самый стабильный по kills в каждом матче',
         'Высокий HS% (34–58%) — точные выстрелы в голову',
@@ -541,9 +553,9 @@ function renderRoles(){
     {
       player: 'T-rex',
       icon: '🎯',
-      iconBg: '#0d1f2d', iconColor: '#00e5ff',
+      iconBg: '#dbeafe', iconColor: '#1d4ed8',
       role: 'AWPer',
-      badgeBg: 'rgba(0,229,255,0.1)', badgeColor: '#00e5ff', badgeBorder: 'rgba(0,229,255,0.25)',
+      badgeBg: '#dbeafe', badgeColor: '#1d4ed8', badgeBorder: '#bfdbfe',
       strengths: [
         'Контролирует длинные дистанции и открытые углы',
         'Много assists — видит карту, помогает команде',
@@ -555,9 +567,9 @@ function renderRoles(){
     {
       player: 'silntmonstr',
       icon: '🕵️',
-      iconBg: '#1a1a0d', iconColor: '#ffc840',
+      iconBg: '#fef9c3', iconColor: '#a16207',
       role: 'Lurker',
-      badgeBg: 'rgba(255,200,64,0.1)', badgeColor: '#ffc840', badgeBorder: 'rgba(255,200,64,0.25)',
+      badgeBg: '#fef9c3', badgeColor: '#a16207', badgeBorder: '#fde68a',
       strengths: [
         'Рекордный HS% 61% на Nuke — точные одиночные выстрелы',
         'Тихо заходит с фланга, застаёт врасплох',
@@ -569,9 +581,9 @@ function renderRoles(){
     {
       player: 'cartier',
       icon: '🔫',
-      iconBg: '#2d0d1a', iconColor: '#ff3d6e',
+      iconBg: '#fce7f3', iconColor: '#be185d',
       role: 'Second Entry / Rifler',
-      badgeBg: 'rgba(255,61,110,0.1)', badgeColor: '#ff3d6e', badgeBorder: 'rgba(255,61,110,0.25)',
+      badgeBg: '#fce7f3', badgeColor: '#be185d', badgeBorder: '#fbcfe8',
       strengths: [
         '"Оружейный мастер" — играет с разным оружием, адаптируется',
         'HS% до 60% — опасен в ближнем и среднем бою',
@@ -583,9 +595,9 @@ function renderRoles(){
     {
       player: 'Rivo',
       icon: '🛡️',
-      iconBg: '#0d1a2d', iconColor: '#6b9cff',
+      iconBg: '#ede9fe', iconColor: '#7c3aed',
       role: 'Support',
-      badgeBg: 'rgba(107,156,255,0.1)', badgeColor: '#6b9cff', badgeBorder: 'rgba(107,156,255,0.25)',
+      badgeBg: '#ede9fe', badgeColor: '#7c3aed', badgeBorder: '#ddd6fe',
       strengths: [
         'Больше всего assists в команде — живёт для тиммейтов',
         'Открывает позиции для entry фрагеров',
